@@ -5,10 +5,17 @@ chardet==3.0.4
 enum34==1.1.6
 idna==2.6
 ipaddress==1.0.18
+Jinja==1.2
+Jinja2==2.9.6
+linecache2==1.0.0
+MarkupSafe==1.0
 py==1.4.34
 pycparser==2.18
 pytest==3.2.1
 qiniu==7.1.5
 requests==2.18.4
 six==1.10.0
+sync==1.0.0
+traceback2==1.4.0
+unittest2==1.1.0
 urllib3==1.22
