@@ -6,7 +6,8 @@ import codecs
 import qiniu
 
 from .exception import TemplateNotExistsException
-from .config import TEMPLATE_PATH
+from .config import TEMPLATE_PATH, extract_args
+from .logger import APP_LOG
 
 '''
     Persist file mode: append/replace, default mode is replace
@@ -49,15 +50,18 @@ class QiniuConflictStrategy:
     Upload file/content to QiniuStorage
 '''
 def sync_to_qiniu(content, filepath, strategy=QiniuConflictStrategy.REPLACE):
+    qiniu_args = extract_args(('qiniu_ak', 'qiniu_sk', 'qiniu_budget',))
+    token = qiniu.Auth(qiniu_args['qiniu_ak'], qiniu_args['qiniu_sk']).upload_token(qiniu_args['qiniu_budget'])
     
-    qiniu_config = {
-        'qiniu_ak' : os.environ.get('QINIU_AK'),
-        'qiniu_sk' : os.environ.get('QINIU_SK'),
-        'qiniu_budget' : os.environ.get('QINIU_BUDGET')
-    }
-
-    for k, v in qiniu_config.iteritems():
-        print k, v
+    ret, info = qiniu.put_data(token, filepath, content)
+    
+    if info is not None:
+        if info.status_code == 200:
+            return u"http://mirror.tarax.cn/{0}".format(ret['key'])
+        else:
+            APP_LOG.error(u'qiniu upload error: {0} '.format(info['exception']))
+    
+    return None
     
 
     

@@ -14,7 +14,7 @@ class TestUtil(unittest.TestCase):
         parsed_args = config.extract_args(args_tuple)
         
         assert parsed_args[args_tuple[0]] is not None
-        assert parsed_args[args_tuple[1]] == 'testkeytestkey'
+        assert parsed_args[args_tuple[1]] == 'testkeytestkey'   
        
 
 
