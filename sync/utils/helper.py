@@ -3,6 +3,7 @@
 
 import os
 import codecs
+import qiniu
 
 from .exception import TemplateNotExistsException
 from .config import TEMPLATE_PATH
@@ -48,7 +49,18 @@ class QiniuConflictStrategy:
     Upload file/content to QiniuStorage
 '''
 def sync_to_qiniu(content, filepath, strategy=QiniuConflictStrategy.REPLACE):
-    pass
+    
+    qiniu_config = {
+        'qiniu_ak' : os.environ.get('QINIU_AK'),
+        'qiniu_sk' : os.environ.get('QINIU_SK'),
+        'qiniu_budget' : os.environ.get('QINIU_BUDGET')
+    }
+
+    for k, v in qiniu_config.iteritems():
+        print k, v
+    
+
+    
     
 
 
