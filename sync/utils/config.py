@@ -3,7 +3,7 @@ import os
 import sys
 import argparse
 
-ROOT_PATH = os.path.split(os.path.dirname(os.path.dirname(__file__)))[0]
+ROOT_PATH = os.path.split(os.path.dirname(os.path.abspath(__file__)))[0]
 STATIC_PATH = os.path.join(ROOT_PATH, 'static')
 TEMPLATE_PATH = os.path.join(ROOT_PATH, 'tmpl')
 LOG_PATH = os.path.join(ROOT_PATH, 'logs')
@@ -24,7 +24,7 @@ def extract_args(args_tuple):
     for k in args_tuple:
         parser.add_argument(u'--{0}'.format(k), default=None)
     
-    parser_args = parser.parse_args().__dict__
+    parser_args = parser.parse_known_args()[0].__dict__
     env_args = dict([(k, os.environ.get(k)) for k in args_tuple if os.environ.get(k) is not None])
 
     default_args.update(clean_dict(env_args))

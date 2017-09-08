@@ -2,3 +2,7 @@
 
 class TemplateNotExistsException(Exception):
     pass
+
+
+class QiniuTokenInvalidException(Exception):
+    pass

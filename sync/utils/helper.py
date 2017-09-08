@@ -5,7 +5,7 @@ import os
 import codecs
 import qiniu
 
-from .exception import TemplateNotExistsException
+from .exception import TemplateNotExistsException, QiniuTokenInvalidException
 from .config import TEMPLATE_PATH, extract_args
 from .logger import APP_LOG
 
@@ -62,6 +62,35 @@ def sync_to_qiniu(content, filepath, strategy=QiniuConflictStrategy.REPLACE):
             APP_LOG.error(u'qiniu upload error: {0} '.format(info['exception']))
     
     return None
+
+
+class QiniuBudget(object):
+
+    def __init__(self):
+        qiniu_args = extract_args(('QINIU_AK', 'QINIU_SK', 'QINIU_BUDGET',))
+        self._q = qiniu_args
+        self._t = qiniu.Auth(qiniu_args['QINIU_AK'], qiniu_args['QINIU_SK'])
+        self.bucket = qiniu.BucketManager(self._t)
+
+    def resource_exists(self, key, budget = None):
+        if budget is None:
+            budget = self._q.get('QINIU_BUDGET')
+        ret, info = self.bucket.stat(budget, key)
+        return 'hash' in ret
+        
+    def resource_remove(self, key, budget = None):
+        if budget is None:
+            budget = self._q.get('QINIU_BUDGET')
+        if self.resource_exists(key, budget = budget):
+            ret, info = self.bucket.delete(budget, key)
+            return ret == {}
+        return None
+        
+    def resource_sync(self, content, filepath, strategy = QiniuConflictStrategy.REPLACE):
+        pass
+
+
+
     
 
     

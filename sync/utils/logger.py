@@ -9,7 +9,7 @@ LOG_SUFFIX = "%Y%m%d"
 
 LOG_NAME = 'sync'
 
-from .config import LOG_FOLDER
+from .config import LOG_PATH
 
 class Logger(object):
     def __init__(self, log_name, log_path, log_level = logging.INFO, backup_count = DEFAULT_BACKUP_COUNT):
@@ -66,5 +66,5 @@ def init_logger(log_path, log_name = LOG_NAME, log_level = 'info'):
     return logger
 
 
-init_logger(LOG_FOLDER)
+init_logger(LOG_PATH)
 APP_LOG = get_logger_by_name()
