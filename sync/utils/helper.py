@@ -76,7 +76,7 @@ class QiniuBudget(object):
         if budget is None:
             budget = self._q.get('QINIU_BUDGET')
         ret, info = self.bucket.stat(budget, key)
-        return 'hash' in ret
+        return (ret is not None) and ('hash' in ret)
         
     def resource_remove(self, key, budget = None):
         if budget is None:

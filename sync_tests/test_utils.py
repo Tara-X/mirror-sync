@@ -21,10 +21,8 @@ class TestUtil(unittest.TestCase):
     def test_qiniu_file_exists(self):
 
         qn = helper.QiniuBudget()
-
-        # qn.resource_exists('index.html')
-        # qn.resource_exists('dfsdfsdfsdf')
-        qn.resource_exists('color_admin_v1.7.zip')
+        assert qn.resource_exists('color_admin_v1.7.zip') is True
+        assert qn.resource_exists('color_admin_v1.7.zip.random.123456') is False
 
 if __name__ == '__main__':
     unittest.main()
