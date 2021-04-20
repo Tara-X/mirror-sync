@@ -9,7 +9,7 @@ Jinja==1.2
 Jinja2==2.9.6
 linecache2==1.0.0
 MarkupSafe==1.0
-py==1.4.34
+py==1.10.0
 pycparser==2.18
 pytest==3.2.1
 qiniu==7.1.5
